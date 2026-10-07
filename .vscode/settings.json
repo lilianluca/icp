@@ -1,0 +1,9 @@
+{
+  // IntelliSense obstarává clangd, rozšíření od Microsoftu necháme jen pro ladění (debugger)
+  "C_Cpp.intelliSenseEngine": "disabled",
+
+  // Kde clangd najde compile_commands.json (vygeneruje ho CMake při konfiguraci)
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}/build/debug"
+  ]
+}
