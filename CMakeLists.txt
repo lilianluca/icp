@@ -49,6 +49,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${OpenCV_INCLUDE_DIRS}
 )
 
+# Cvičení (01lab, 02lab, ...)
+add_subdirectory(labs)
+
 # Osobní výukové příklady (složka learn/ není v gitu, u ostatních se přeskočí)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/learn/CMakeLists.txt")
     add_subdirectory(learn)
