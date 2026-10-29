@@ -6,11 +6,15 @@
 
 #include <algorithm>
 #include <chrono>
+#include <cstdlib>
 #include <iostream>
 #include <numeric>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 #include <opencv2/opencv.hpp>
+#include <opencv2/core/utils/logger.hpp>
 
 // our application class
 class App {

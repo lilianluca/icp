@@ -2,9 +2,11 @@
 // library demonstrator
 //
 
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -12,8 +14,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 
-#include <opencv4/opencv2/opencv.hpp>
-// #include <opencv2/opencv.hpp>
+#include <opencv2/opencv.hpp>
+#include <opencv2/core/utils/logger.hpp>
 
 #include <nlohmann/json.hpp>
 

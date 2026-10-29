@@ -15,8 +15,8 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 
 if(WIN32)
-    find_package(OpenCV CONFIG REQUIRED PATHS "<path to your opencv>")
-    #for example: find_package(OpenCV CONFIG REQUIRED PATHS "C:/opencv/build")
+    # OpenCV extracted to C:/OpenCV (see 01lab instructions), other location: -DOpenCV_DIR=...
+    find_package(OpenCV CONFIG REQUIRED PATHS "C:/OpenCV/build")
 elseif(UNIX)
     find_package(OpenCV CONFIG REQUIRED)
 endif()

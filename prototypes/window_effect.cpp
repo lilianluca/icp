@@ -12,9 +12,11 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
+#include <initializer_list>
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <GL/glew.h>
@@ -130,13 +132,13 @@ struct Scene {
             for (int j = 0; j < GRID_Y; j++)
                 if (!((i == 5 && j == 2) || (i == 6 && j == 2) || (i == 2 && j == 3)))  // holes
                     add_cube_layer(i, j, bottom, { 0.9f, 0.45f, 0.2f });
-        for (auto [i, j] : { std::pair{0, 0}, {1, 0}, {0, 1}, {7, 4}, {7, 3}, {3, 1} })
+        for (auto [i, j] : std::initializer_list<std::pair<int, int>>{ {0, 0}, {1, 0}, {0, 1}, {7, 4}, {7, 3}, {3, 1} })
             add_cube_layer(i, j, bottom - 1, { 0.85f, 0.75f, 0.2f });
 
         // falling L piece above the hole at (5,2),(6,2) - slowly falls and repeats
         const float fall_depth = (GRID_Z - 1) * cd;           // from top to the bottom layer
         float z = -std::fmod(static_cast<float>(time) * 2.0f, fall_depth);
-        for (auto [i, j] : { std::pair{5, 2}, {6, 2}, {6, 3} })
+        for (auto [i, j] : std::initializer_list<std::pair<int, int>>{ {5, 2}, {6, 2}, {6, 3} })
             add_cube(i, j, z, { 0.45f, 0.85f, 0.35f });
     }
 };
