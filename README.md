@@ -87,6 +87,31 @@ Efekt je nejvýraznější, když se díváte jedním okem.
 | `01lab` | ukázka knihoven (OpenCV, GLFW/GLEW, glm, JSON) |
 | `02lab` | hledání objektu podle jasu a podle barvy (HSV), sledování červeného objektu v kameře / videu |
 
+## Použité knihovny
+
+- **[OpenCV](https://opencv.org/):** zpracování obrazu a videa. Snímání z kamery
+  a čtení videa, převod barevných prostorů (HSV), prahování, morfologie
+  a detekce obličeje. Používá se pro sledování hlavy a objektů.
+- **[OpenGL](https://www.opengl.org/):** rozhraní grafické karty pro vykreslování
+  3D scény. Je součástí ovladačů grafické karty, neinstaluje se zvlášť.
+- **[GLFW](https://www.glfw.org/):** vytvoření okna s OpenGL kontextem a vstupy
+  z klávesnice a myši (události).
+- **[GLEW](https://glew.sourceforge.net/):** načte funkce OpenGL novějších verzí,
+  které systém přímo nenabízí. Bez něj jde volat jen základní OpenGL 1.1.
+- **[glm](https://github.com/g-truc/glm):** matematika pro grafiku (vektory,
+  matice, transformace a projekce), napodobuje datové typy z GLSL shaderů.
+- **[Dear ImGui](https://github.com/ocornut/imgui):** jednoduché uživatelské
+  rozhraní (tlačítka, posuvníky, výpisy) přímo v OpenGL okně. Plánuje se
+  pro nastavení a zobrazení FPS a latence.
+- **[nlohmann/json](https://github.com/nlohmann/json):** čtení a zápis JSON.
+  Používá se pro nastavení aplikace (`resources/app_settings.json`).
+
+GLFW, GLEW, glm, ImGui a nlohmann/json instaluje automaticky vcpkg podle
+`vcpkg.json`. OpenCV se instaluje zvlášť (viz Požadavky níže).
+
+Knihovna pro práci s mikrofonem zatím v projektu není. Doplní se, až se začne
+pracovat na zvukovém vstupu.
+
 ## Sestavení
 
 Projekt používá CMake (≥ 4.0), presety v `CMakePresets.json` a vcpkg pro knihovny
