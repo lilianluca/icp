@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0) 
+cmake_minimum_required(VERSION 4.0)
 
 # Version 4.0+ is needed to set working directory
 # Make sure to use forward slashes (/) in the path!
@@ -7,12 +7,6 @@ project(icp VERSION 2026.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-find_package(glm           CONFIG REQUIRED)
-find_package(GLEW                 REQUIRED)
-find_package(glfw3         CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
-find_package(imgui CONFIG REQUIRED)
 
 if(WIN32)
     # OpenCV extracted to C:/OpenCV (see 01lab instructions), other location: -DOpenCV_DIR=...
@@ -27,35 +21,16 @@ file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
-# compile definitions and target properties can be set only AFTER add_executable(...)
-add_compile_definitions(GLM_ENABLE_EXPERIMENTAL)
+# target properties can be set only AFTER add_executable(...)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     DEBUGGER_WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
-message(STATUS "My awesome project is using CMAKE SOURCE DIR: ${CMAKE_SOURCE_DIR}")
-
-target_link_libraries(${PROJECT_NAME} PRIVATE 
-    GLEW::GLEW
-    glfw
-    glm::glm
-    nlohmann_json::nlohmann_json
+target_link_libraries(${PROJECT_NAME} PRIVATE
     ${OpenCV_LIBS}
-    imgui::imgui
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${OpenCV_INCLUDE_DIRS}
 )
-
-# Cvičení (01lab, 02lab, ...)
-add_subdirectory(labs)
-
-# Prototypy nápadů na semestrální projekt
-add_subdirectory(prototypes)
-
-# Osobní výukové příklady (složka learn/ není v gitu, u ostatních se přeskočí)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/learn/CMakeLists.txt")
-    add_subdirectory(learn)
-endif()

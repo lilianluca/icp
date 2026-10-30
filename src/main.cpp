@@ -1,10 +1,21 @@
 //
-// ICP semestrální projekt
+// ICP: ztrátová komprese videa (JPEG)
 //
 
 #include <iostream>
 
-int main() {
-  std::cout << "ICP project\n";
-  return 0;
+#include "App.h"
+
+int main()
+{
+    try {
+        App app;
+        if (!app.init())
+            return EXIT_FAILURE;
+        return app.run();
+    }
+    catch (std::exception const& e) {
+        std::cerr << "App failed : " << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 }
