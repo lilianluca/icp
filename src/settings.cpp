@@ -14,7 +14,7 @@ Settings::Settings(const std::string &path) {
   try {
     nlohmann::json j = nlohmann::json::parse(file);
 
-    title = j.at("appname").get<std::string>();
+    title = j.at("title").get<std::string>();
     width = j.at("default_resolution").at("x").get<int>();
     height = j.at("default_resolution").at("y").get<int>();
     vsync = j.value("vsync", true);
