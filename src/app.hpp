@@ -1,5 +1,6 @@
 #pragma once
 
+#include "settings.hpp"
 #include "window.hpp"
 
 class App {
@@ -9,7 +10,8 @@ public:
   int run(); // hlavní smyčka, vrací návratový kód programu
 
 private:
-  // pořadí je důležité, glfw musí vzniknout před window
-  GlfwLibrary glfw;
+  // nejdříve konfigurace, pak knihovny, pak zdroje
+  Settings settings; // nastavení musí vzniknout před window
+  GlfwLibrary glfw;  // glfw musí vzniknout před window
   Window window;
 };

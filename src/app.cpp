@@ -3,10 +3,12 @@
 #include <cstdlib>
 #include <stdexcept>
 
-App::App() : window(800, 600, "ICP") {
+App::App()
+    : settings("resources/app_settings.json"),
+      window(settings.width, settings.height, settings.title.c_str()) {
   glfwMakeContextCurrent(window.get());
-  // vertikální synchronizace zapnutá, max. tolik snímků kolik zvládá monitor
-  glfwSwapInterval(1);
+  // vertikální synchronizace podle nastavení (1 = zapnutá, 0 = vypnutá)
+  glfwSwapInterval(settings.vsync ? 1 : 0);
 
   // inicializace GLEW (až teď, protože potřebuje kontext)
   if (glewInit() != GLEW_OK) {
