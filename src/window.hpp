@@ -29,6 +29,7 @@ public:
   // "surové" okno pro funkce GLFW, které ho potřebují
   // const znamená, že metoda objekt nemění, jen z něj čte
   GLFWwindow *get() const;
+  void set_vsync(bool enabled);
 
 private:
   GLFWwindow *handle = nullptr;

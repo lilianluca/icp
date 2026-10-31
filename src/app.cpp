@@ -1,47 +1,44 @@
 #include "app.hpp"
 
 #include <cstdlib>
-#include <format>
-#include <stdexcept>
-#include <string>
+#include <imgui.h>
 
 App::App()
     : settings("config/settings.json"),
-      window(settings.width, settings.height, settings.title.c_str()) {
-  glfwMakeContextCurrent(window.get());
-  // vertikální synchronizace podle nastavení (1 = zapnutá, 0 = vypnutá)
-  glfwSwapInterval(settings.vsync ? 1 : 0);
-
-  // inicializace GLEW (až teď, protože potřebuje kontext)
-  if (glewInit() != GLEW_OK) {
-    throw std::runtime_error("GLEW se nepodařilo inicializovat");
-  }
+      window(settings.width, settings.height, settings.title.c_str()),
+      gui(window.get(), settings.gui_font, settings.gui_font_size) {
+  window.set_vsync(settings.vsync);
 }
 
 int App::run() {
   // hlavní smyčka (1 obrátka = 1 snímek)
   while (!glfwWindowShouldClose(window.get())) {
-    // vstup
+    glfwPollEvents();
+    gui.begin_frame();
+
     if (glfwGetKey(window.get(), GLFW_KEY_ESCAPE) == GLFW_PRESS) {
       glfwSetWindowShouldClose(window.get(), GLFW_TRUE);
     }
 
-    // kreslení
+    // popis GUI
+    ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f)); // levý horní roh
+    ImGui::SetNextWindowBgAlpha(0.35f);            // poloprůhledné pozadí
+    ImGui::Begin(
+        "stats", nullptr,
+        ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
+            ImGuiWindowFlags_NoInputs); // bez rámečku, titulku a klikání
+    ImGui::Text("FPS: %.0f", fps.get());
+    ImGui::Text("Doba snímku: %0.1f ms", fps.frame_time_ms());
+    ImGui::End();
+
     glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 
     glClear(GL_COLOR_BUFFER_BIT);
-    glfwSwapBuffers(window.get());
 
-    // události
-    glfwPollEvents();
+    gui.end_frame();               // GUI přes scénu
+    glfwSwapBuffers(window.get()); // zobrazit
 
     fps.update();
-    if (fps.is_updated()) {
-      std::string title =
-          std::format("{} | {:.0f} FPS | {:.1f} ms", settings.title, fps.get(),
-                      fps.frame_time_ms());
-      glfwSetWindowTitle(window.get(), title.c_str());
-    }
   }
 
   return EXIT_SUCCESS;

@@ -4,5 +4,7 @@
     "x": 1024,
     "y": 768
   },
-  "vsync": true
+  "vsync": true,
+  "gui_font": "assets/fonts/LiberationSans-Regular.ttf",
+  "gui_font_size": 36
 }

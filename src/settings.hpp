@@ -11,4 +11,6 @@ struct Settings {
   int width = 0;
   int height = 0;
   bool vsync = true;
+  std::string gui_font;
+  float gui_font_size = 18.0f;
 };
