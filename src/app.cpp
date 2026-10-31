@@ -4,7 +4,7 @@
 #include <stdexcept>
 
 App::App()
-    : settings("resources/app_settings.json"),
+    : settings("config/settings.json"),
       window(settings.width, settings.height, settings.title.c_str()) {
   glfwMakeContextCurrent(window.get());
   // vertikální synchronizace podle nastavení (1 = zapnutá, 0 = vypnutá)

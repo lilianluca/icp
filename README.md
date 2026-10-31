@@ -58,7 +58,7 @@ Plánovaná architektura vláken:
 | --- | --- |
 | `src/` | semestrální projekt (program `icp`), zatím jen kostra |
 | `prototypes/` | prototypy nápadů. Každý `.cpp` je samostatný program |
-| `resources/` | soubory, které program načítá (nastavení, …) |
+| `config/` | nastavení aplikace (`settings.json`) |
 
 Nový soubor `.cpp` ve složce `prototypes/` se automaticky stane
 samostatným programem se stejným názvem. Do CMake není potřeba nic dopisovat.
@@ -96,7 +96,7 @@ Efekt je nejvýraznější, když se díváte jedním okem.
   rozhraní (tlačítka, posuvníky, výpisy) přímo v OpenGL okně. Plánuje se
   pro nastavení a zobrazení FPS a latence.
 - **[nlohmann/json](https://github.com/nlohmann/json):** čtení a zápis JSON.
-  Používá se pro nastavení aplikace (`resources/app_settings.json`).
+  Používá se pro nastavení aplikace (`config/settings.json`).
 
 GLFW, GLEW, glm, ImGui a nlohmann/json instaluje automaticky vcpkg podle
 `vcpkg.json`. OpenCV se instaluje zvlášť (viz Požadavky níže).
@@ -136,7 +136,7 @@ cmake --preset vcpkg-debug
 cmake --build build/debug --target window_effect
 ```
 
-Programy se spouštějí **z kořene repozitáře**, aby našly složku `resources/`:
+Programy se spouštějí **z kořene repozitáře**, aby našly složku `config/`:
 
 ```bash
 ./build/debug/prototypes/window_effect      # Linux
@@ -163,4 +163,4 @@ Rozšíření CMake Tools → `Ctrl+Shift+P`:
    a výchozí profil `Debug` vypnout.
 3. Po nastavení `VCPKG_ROOT` CLion restartovat.
 4. U programu `icp` nastavit v *Run → Edit Configurations* položku
-   **Working directory** na `$ProjectFileDir$` (načítá `resources/`).
+   **Working directory** na `$ProjectFileDir$` (načítá `config/`).
