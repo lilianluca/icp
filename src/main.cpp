@@ -7,7 +7,6 @@
 int main() {
   try {
     App app; // vytvoří objekt -> zavolá se konstruktor
-    app.init();
     return app.run();
   } // tady app zaniká -> zavolá se destruktor (úklid)
   catch (const std::exception &e) {
