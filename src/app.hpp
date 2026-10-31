@@ -1,5 +1,6 @@
 #pragma once
 
+#include "fps_meter.hpp"
 #include "settings.hpp"
 #include "window.hpp"
 
@@ -14,4 +15,5 @@ private:
   Settings settings; // nastavení musí vzniknout před window
   GlfwLibrary glfw;  // glfw musí vzniknout před window
   Window window;
+  FpsMeter fps;
 };

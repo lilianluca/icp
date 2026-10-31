@@ -1,7 +1,9 @@
 #include "app.hpp"
 
 #include <cstdlib>
+#include <format>
 #include <stdexcept>
+#include <string>
 
 App::App()
     : settings("config/settings.json"),
@@ -32,6 +34,14 @@ int App::run() {
 
     // události
     glfwPollEvents();
+
+    fps.update();
+    if (fps.is_updated()) {
+      std::string title =
+          std::format("{} | {:.0f} FPS | {:.1f} ms", settings.title, fps.get(),
+                      fps.frame_time_ms());
+      glfwSetWindowTitle(window.get(), title.c_str());
+    }
   }
 
   return EXIT_SUCCESS;
