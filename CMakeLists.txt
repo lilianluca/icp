@@ -15,7 +15,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 
 if(WIN32)
-    # OpenCV extracted to C:/OpenCV (see 01lab instructions), other location: -DOpenCV_DIR=...
+    # OpenCV extracted to C:/OpenCV (see lab 01 instructions), other location: -DOpenCV_DIR=...
     find_package(OpenCV CONFIG REQUIRED PATHS "C:/OpenCV/build")
 elseif(UNIX)
     find_package(OpenCV CONFIG REQUIRED)
@@ -48,9 +48,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${OpenCV_INCLUDE_DIRS}
 )
-
-# Cvičení (01lab, 02lab, ...)
-add_subdirectory(labs)
 
 # Prototypy nápadů na semestrální projekt
 add_subdirectory(prototypes)

@@ -58,10 +58,9 @@ Plánovaná architektura vláken:
 | --- | --- |
 | `src/` | semestrální projekt (program `icp`), zatím jen kostra |
 | `prototypes/` | prototypy nápadů. Každý `.cpp` je samostatný program |
-| `labs/` | řešení cvičení (`01lab.cpp`, `02lab.cpp`, …). Každý `.cpp` je samostatný program |
-| `resources/` | obrázky, video a nastavení, která programy načítají |
+| `resources/` | soubory, které program načítá (nastavení, …) |
 
-Nový soubor `.cpp` ve složce `labs/` nebo `prototypes/` se automaticky stane
+Nový soubor `.cpp` ve složce `prototypes/` se automaticky stane
 samostatným programem se stejným názvem. Do CMake není potřeba nic dopisovat.
 
 Podklady od vyučujícího (`cviceni/`, `prednasky/`) nejsou v gitu.
@@ -79,13 +78,6 @@ Polohu hlavy zatím simuluje myš.
 | ESC | konec |
 
 Efekt je nejvýraznější, když se díváte jedním okem.
-
-## Cvičení
-
-| Program | Obsah |
-| --- | --- |
-| `01lab` | ukázka knihoven (OpenCV, GLFW/GLEW, glm, JSON) |
-| `02lab` | hledání objektu podle jasu a podle barvy (HSV), sledování červeného objektu v kameře / videu |
 
 ## Použité knihovny
 
@@ -170,5 +162,5 @@ Rozšíření CMake Tools → `Ctrl+Shift+P`:
 2. *Settings → … → CMake:* povolit profil `vcpkg-debug` (načte se z presetů)
    a výchozí profil `Debug` vypnout.
 3. Po nastavení `VCPKG_ROOT` CLion restartovat.
-4. U programů z `labs/` nastavit v *Run → Edit Configurations* položku
-   **Working directory** na `$ProjectFileDir$`.
+4. U programu `icp` nastavit v *Run → Edit Configurations* položku
+   **Working directory** na `$ProjectFileDir$` (načítá `resources/`).
