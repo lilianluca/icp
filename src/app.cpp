@@ -6,7 +6,8 @@
 App::App()
     : settings("config/settings.json"),
       window(settings.width, settings.height, settings.title.c_str()),
-      gui(window.get(), settings.gui_font, settings.gui_font_size) {
+      gui(window.get(), settings.gui_font, settings.gui_font_size),
+      shader("assets/shaders/triangle.vert", "assets/shaders/triangle.frag") {
   window.set_vsync(settings.vsync);
 }
 

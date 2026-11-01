@@ -31,7 +31,7 @@ Gui::Gui(GLFWwindow *window, const std::string &font_path, float font_size) {
     throw std::runtime_error("Nepodařilo se inicializovat ImGui");
   }
 
-  if (!ImGui_ImplOpenGL3_Init()) {
+  if (!ImGui_ImplOpenGL3_Init("#version 330 core")) {
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
     throw std::runtime_error("Nepodařilo se inicializovat ImGui");

@@ -3,6 +3,7 @@
 #include "fps_meter.hpp"
 #include "gui.hpp"
 #include "settings.hpp"
+#include "shader.hpp"
 #include "window.hpp"
 
 class App {
@@ -18,4 +19,5 @@ private:
   Window window;
   Gui gui; // gui potřebuji inicializované okno
   FpsMeter fps;
+  ShaderProgram shader;
 };
