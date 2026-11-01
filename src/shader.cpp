@@ -1,6 +1,7 @@
 #include "shader.hpp"
 
 #include <fstream>
+#include <glm/gtc/type_ptr.hpp>
 #include <sstream>
 #include <stdexcept>
 
@@ -72,3 +73,13 @@ ShaderProgram::ShaderProgram(const std::string &vertex_path,
 ShaderProgram::~ShaderProgram() { glDeleteProgram(id); }
 
 void ShaderProgram::use() const { glUseProgram(id); }
+
+void ShaderProgram::set_mat4(const std::string &name,
+                             const glm::mat4 &value) const {
+  GLint location = glGetUniformLocation(id, name.c_str());
+  if (location == -1) {
+    throw std::runtime_error("Uniform location nenalezena " + name);
+  }
+
+  glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+}

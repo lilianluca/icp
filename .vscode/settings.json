@@ -4,6 +4,7 @@
 
   // Kde clangd najde compile_commands.json (vygeneruje ho CMake při konfiguraci)
   "clangd.arguments": [
-    "--compile-commands-dir=${workspaceFolder}/build/debug"
+    "--compile-commands-dir=${workspaceFolder}/build/debug",
+    "--header-insertion=never"
   ]
 }
