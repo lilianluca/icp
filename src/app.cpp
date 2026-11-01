@@ -7,14 +7,24 @@ App::App()
     : settings("config/settings.json"),
       window(settings.width, settings.height, settings.title.c_str()),
       gui(window.get(), settings.gui_font, settings.gui_font_size),
-      shader("assets/shaders/triangle.vert", "assets/shaders/triangle.frag") {
+      shader("assets/shaders/triangle.vert", "assets/shaders/triangle.frag"),
+      triangle({-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f}) {
   window.set_vsync(settings.vsync);
+
+  // zapnutí průhlednosti (míchání barev)
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 int App::run() {
   // hlavní smyčka (1 obrátka = 1 snímek)
   while (!glfwWindowShouldClose(window.get())) {
     glfwPollEvents();
+
+    int width, height;
+    glfwGetFramebufferSize(window.get(), &width, &height);
+    glViewport(0, 0, width, height);
+
     gui.begin_frame();
 
     if (glfwGetKey(window.get(), GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -35,6 +45,9 @@ int App::run() {
     glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 
     glClear(GL_COLOR_BUFFER_BIT);
+
+    shader.use();
+    triangle.draw();
 
     gui.end_frame();               // GUI přes scénu
     glfwSwapBuffers(window.get()); // zobrazit

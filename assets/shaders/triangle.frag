@@ -3,5 +3,5 @@
 out vec4 color; // výstup: barva pixelu (červená, zelená, modrá, průhlednost)
 
 void main() {
-    color = vec4(0.2, 0.4, 0.9, 1.0);
+    color = vec4(1.0, 0.0, 0.0, 1.0);
 }

@@ -2,6 +2,7 @@
 
 #include "fps_meter.hpp"
 #include "gui.hpp"
+#include "mesh.hpp"
 #include "settings.hpp"
 #include "shader.hpp"
 #include "window.hpp"
@@ -20,4 +21,5 @@ private:
   Gui gui; // gui potřebuji inicializované okno
   FpsMeter fps;
   ShaderProgram shader;
+  Mesh triangle;
 };
