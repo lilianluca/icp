@@ -2,9 +2,8 @@
 
 #include "fps_meter.hpp"
 #include "gui.hpp"
-#include "mesh.hpp"
 #include "settings.hpp"
-#include "shader.hpp"
+#include "well_renderer.hpp"
 #include "window.hpp"
 
 class App {
@@ -14,12 +13,14 @@ public:
   int run(); // hlavní smyčka, vrací návratový kód programu
 
 private:
-  // nejdříve konfigurace, pak knihovny, pak zdroje
+  void handle_input();
+  void draw_overlay();
+
   Settings settings; // nastavení musí vzniknout před window
   GlfwLibrary glfw;  // glfw musí vzniknout před window
   Window window;
   Gui gui; // gui potřebuji inicializované okno
   FpsMeter fps;
-  ShaderProgram shader;
-  Mesh triangle;
+  Game game;
+  WellRenderer renderer;
 };

@@ -4,7 +4,7 @@ Semestrální projekt do předmětu ICP.
 
 ## Téma projektu: 3D Tetris s efektem okna
 
-> **Stav:** návrh tématu, zatím jen prototyp vizuálního efektu (`prototypes/window_effect`).
+> **Stav:** první ovladatelná herní scéna v programu `icp`.
 
 Hra typu 3D Tetris (podle klasické hry *Blockout*). Hráč se dívá shora do šachty,
 která vede „dovnitř“ monitoru, dílky do ní padají směrem od hráče a cílem je
@@ -56,7 +56,7 @@ Plánovaná architektura vláken:
 
 | Složka | Obsah |
 | --- | --- |
-| `src/` | semestrální projekt (program `icp`), zatím jen kostra |
+| `src/` | semestrální projekt (program `icp`), herní logika a vykreslování |
 | `prototypes/` | prototypy nápadů. Každý `.cpp` je samostatný program |
 | `config/` | nastavení aplikace (`settings.json`) |
 
@@ -78,6 +78,26 @@ Polohu hlavy zatím simuluje myš.
 | ESC | konec |
 
 Efekt je nejvýraznější, když se díváte jedním okem.
+
+## První herní scéna
+
+Program `icp` vykresluje šachtu 8 × 5 × 10, obsazené buňky a aktivní
+L dílek ze tří kostek. Po rychlém pádu dílek zůstane v šachtě a objeví se další.
+Obsazené místo pro nový dílek ukončí hru.
+
+| Ovládání | Akce |
+| --- | --- |
+| šipky | posun dílku vlevo, vpravo, nahoru a dolů |
+| mezerník | rychlý pád a umístění dílku |
+| pohyb myši | simulace polohy hlavy pro efekt okna |
+| R | nová hra |
+| ESC | konec |
+
+Sestavení aplikace: `cmake --build build/debug --target icp`.
+Z kořene repozitáře spusťte `build\debug\icp.exe` na Windows
+nebo `./build/debug/icp` na Linuxu.
+
+Další kroky zahrnují automatické padání, rotace a mazání plných vrstev.
 
 ## Použité knihovny
 

@@ -83,3 +83,11 @@ void ShaderProgram::set_mat4(const std::string &name,
 
   glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
 }
+void ShaderProgram::set_vec3(const std::string &name,
+                             const glm::vec3 &value) const {
+  GLint location = glGetUniformLocation(id, name.c_str());
+  if (location == -1) {
+    throw std::runtime_error("Uniform location nenalezena " + name);
+  }
+  glUniform3fv(location, 1, glm::value_ptr(value));
+}

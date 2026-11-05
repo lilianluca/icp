@@ -1,6 +1,7 @@
 #include "mesh.hpp"
 
-Mesh::Mesh(const std::vector<float> &vertices) {
+Mesh::Mesh(const std::vector<float> &vertices, GLenum primitive)
+    : primitive(primitive) {
   vertex_count = static_cast<GLsizei>(vertices.size() / 3);
 
   glGenVertexArrays(1, &vao); // vytvoří VAO, ID uloží do vao
@@ -30,5 +31,5 @@ Mesh::~Mesh() {
 
 void Mesh::draw() const {
   glBindVertexArray(vao);
-  glDrawArrays(GL_TRIANGLES, 0, vertex_count);
+  glDrawArrays(primitive, 0, vertex_count);
 }
