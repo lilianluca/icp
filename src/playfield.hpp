@@ -1,5 +1,7 @@
 #pragma once
 
+#include "piece.hpp"
+
 #include <array>
 
 class Playfield {
@@ -14,6 +16,17 @@ public:
 
   void occupy(int x, int y, int z) {
     cells.at(z).at(y).at(x) = true;
+  }
+
+  bool can_place(const Piece &piece) const {
+    for (const CellPosition &cell : piece.world_cells()) {
+      if (cell.x < 0 || cell.x >= width || cell.y < 0 || cell.y >= height ||
+          cell.z < 0 || cell.z >= depth ||
+          is_occupied(cell.x, cell.y, cell.z)) {
+        return false;
+      }
+    }
+    return true;
   }
 
 private:
