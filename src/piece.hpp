@@ -14,6 +14,8 @@ public:
   explicit Piece(std::vector<CellPosition> cells, CellPosition position = {})
       : local_cells(std::move(cells)), position(position) {}
 
+  CellPosition get_position() const { return position; }
+
   void set_position(CellPosition new_position) {
     position = new_position;
   }

@@ -19,6 +19,8 @@ public:
   void use() const; // další kreslení použije tento program
   void set_mat4(const std::string &name, const glm::mat4 &value) const;
 
+  void set_vec3(const std::string &name, const glm::vec3 &value) const;
+
 private:
   GLuint id = 0;
 };

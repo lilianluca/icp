@@ -7,7 +7,7 @@
 class Mesh {
 public:
   // vertices: souřadnice x, y, z pro každý vrchol
-  explicit Mesh(const std::vector<float> &vertices);
+  explicit Mesh(const std::vector<float> &vertices, GLenum primitive = GL_TRIANGLES);
   ~Mesh();
 
   // zákaz kopírování
@@ -20,4 +20,5 @@ private:
   GLuint vao = 0;
   GLuint vbo = 0;
   GLsizei vertex_count = 0;
+  GLenum primitive;
 };
