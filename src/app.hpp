@@ -16,6 +16,7 @@ private:
   void handle_input();
   void draw_overlay();
 
+  // nejdříve konfigurace, pak knihovny, pak zdroje
   Settings settings; // nastavení musí vzniknout před window
   GlfwLibrary glfw;  // glfw musí vzniknout před window
   Window window;

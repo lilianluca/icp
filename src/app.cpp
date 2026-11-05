@@ -10,6 +10,8 @@ App::App()
       gui(window.get(), settings.gui_font, settings.gui_font_size) {
   window.set_vsync(settings.vsync);
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_MULTISAMPLE); // vyhlazení hran při pohybu kamery
+  // zapnutí průhlednosti (míchání barev)
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -38,11 +40,12 @@ void App::handle_input() {
 }
 
 void App::draw_overlay() {
-  ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f));
-  ImGui::SetNextWindowBgAlpha(0.7f);
+  // popis GUI
+  ImGui::SetNextWindowPos(ImVec2(10.0f, 10.0f)); // levý horní roh
+  ImGui::SetNextWindowBgAlpha(0.7f); // poloprůhledné pozadí
   ImGui::Begin("stats", nullptr,
                ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
-                   ImGuiWindowFlags_NoInputs);
+                   ImGuiWindowFlags_NoInputs); // bez rámečku, titulku a klikání
   ImGui::Text("FPS: %.0f | Frame: %.1f ms", fps.get(), fps.frame_time_ms());
   ImGui::TextUnformatted("Arrows: move | Space: drop");
   ImGui::TextUnformatted("Mouse: perspective | R: restart | Esc: exit");
@@ -53,6 +56,8 @@ void App::draw_overlay() {
 }
 
 int App::run() {
+  double last_frame_time = glfwGetTime();
+  // hlavní smyčka (1 obrátka = 1 snímek)
   while (!glfwWindowShouldClose(window.get())) {
     glfwPollEvents();
     if (glfwWindowShouldClose(window.get())) {
@@ -60,12 +65,20 @@ int App::run() {
     }
     int width, height;
     glfwGetFramebufferSize(window.get(), &width, &height);
+    // ochrana proti dělení nulou při minimalizaci
     if (width == 0 || height == 0) {
       glfwWaitEvents();
+      last_frame_time = glfwGetTime(); // po obnovení okna nedohánět dobu minimalizace
       continue;
     }
 
+    // Čas od předchozího snímku pro pád nezávislý na rychlosti vykreslování.
+    const double now = glfwGetTime();
+    const double elapsed_seconds = now - last_frame_time;
+    last_frame_time = now;
+
     gui.begin_frame();
+    game.update(elapsed_seconds);
     handle_input();
 
     int window_width, window_height;
@@ -78,19 +91,16 @@ int App::run() {
         -std::clamp(static_cast<float>(mouse_y / window_height) * 2.0f - 1.0f,
                     -1.0f, 1.0f) * Playfield::height * 0.5f);
 
-    // Volne misto nad scenou pro ovladani a stav hry, take na HiDPI displejich.
-    const float scale = static_cast<float>(height) / window_height;
-    const int overlay_height =
-        static_cast<int>(((settings.gui_font_size + 4) * 4 + 20) * scale);
-    const int scene_height = std::max(height - overlay_height, 1);
+    // Scéna vyplňuje celé okno, GUI se vykreslí přes ni.
     glViewport(0, 0, width, height);
     glClearColor(0.02f, 0.02f, 0.04f, 1.0f);
+    // vymazat barvu i hloubku před kreslením dalšího snímku
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glViewport(0, 0, width, scene_height);
-    renderer.draw(game, static_cast<float>(width) / scene_height, eye_offset);
+    // poměr stran oblasti pro vykreslování scény
+    renderer.draw(game, static_cast<float>(width) / height, eye_offset);
     draw_overlay();
-    gui.end_frame();
-    glfwSwapBuffers(window.get());
+    gui.end_frame(); // GUI přes scénu
+    glfwSwapBuffers(window.get()); // zobrazit
     fps.update();
   }
   return EXIT_SUCCESS;

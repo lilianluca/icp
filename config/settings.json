@@ -1,10 +1,10 @@
 {
   "title": "ICP - 3D Tetris",
   "default_resolution": {
-    "x": 1024,
-    "y": 768
+    "x": 1280,
+    "y": 800
   },
   "vsync": true,
   "gui_font": "assets/fonts/LiberationSans-Regular.ttf",
-  "gui_font_size": 36
+  "gui_font_size": 18
 }

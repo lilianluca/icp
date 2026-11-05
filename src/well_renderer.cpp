@@ -1,6 +1,5 @@
 #include "well_renderer.hpp"
 
-#include <algorithm>
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace {
@@ -56,12 +55,14 @@ WellRenderer::WellRenderer()
              1,1,0, 1,1,-1, 0,1,0, 0,1,-1}, GL_LINES) {}
 
 void WellRenderer::draw_cube(CellPosition cell, glm::vec3 color,
-                             const glm::mat4 &projection) {
+                             const glm::mat4 &projection, float depth_offset) {
+  const float depth = cell.z + depth_offset;
   const glm::vec3 position(cell.x - Playfield::width / 2.0f,
-                           cell.y - Playfield::height / 2.0f, -cell.z);
+                           cell.y - Playfield::height / 2.0f, -depth);
+  // matice model přesune jednotkovou kostku na její místo v šachtě
   const glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
   shader.set_mat4("mvp", projection * model);
-  shader.set_vec3("color", color * (1.0f - 0.55f * cell.z / Playfield::depth));
+  shader.set_vec3("color", color * (1.0f - 0.55f * depth / Playfield::depth));
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0f, 1.0f);
   cube.draw();
@@ -72,18 +73,23 @@ void WellRenderer::draw_cube(CellPosition cell, glm::vec3 color,
 
 void WellRenderer::draw(const Game &game, float aspect, glm::vec2 eye_offset) {
   // Pevny obdelnik okna a posun oka, stejne jako window_projection v prototypu.
-  const float half_width = std::max(Playfield::width / 2.0f,
-                                     Playfield::height / 2.0f * aspect) * 1.1f;
+  const float half_width = Playfield::width / 2.0f;
   const float half_height = half_width / aspect;
-  const glm::vec3 eye(eye_offset.x, eye_offset.y, 12.0f);
+  // Výška i hloubka buněk se přizpůsobí oknu.
+  const float cell_height = 2.0f * half_height / Playfield::height;
+  const glm::vec3 eye(eye_offset.x, eye_offset.y * cell_height, 12.0f); // kde je kamera
+  const float far_plane = eye.z + Playfield::depth * cell_height + 2.0f;
+  // mimoosá projekce vede paprsky od oka přes pevné okraje okna
   const glm::mat4 projection =
       glm::frustum((-half_width - eye.x) / eye.z,
                    (half_width - eye.x) / eye.z,
                    (-half_height - eye.y) / eye.z,
-                   (half_height - eye.y) / eye.z, 1.0f, 24.0f) *
-      glm::translate(glm::mat4(1.0f), -eye);
+                   (half_height - eye.y) / eye.z, 1.0f, far_plane) * // blízká a daleká hranice
+      glm::translate(glm::mat4(1.0f), -eye) * // matice view posune scénu vůči oku
+      glm::scale(glm::mat4(1.0f), glm::vec3(1.0f, cell_height, cell_height));
 
   shader.use();
+  shader.set_vec3("grid_size", glm::vec3(0.0f));
   for (int z = 0; z < Playfield::depth; ++z) {
     for (int y = 0; y < Playfield::height; ++y) {
       for (int x = 0; x < Playfield::width; ++x) {
@@ -94,11 +100,14 @@ void WellRenderer::draw(const Game &game, float aspect, glm::vec2 eye_offset) {
     }
   }
   if (!game.is_over()) {
+    const float offset = game.fall_offset();
     for (const CellPosition &cell : game.active_piece().world_cells()) {
-      draw_cube(cell, {0.45f, 0.85f, 0.35f}, projection);
+      draw_cube(cell, {0.45f, 0.85f, 0.35f}, projection, offset);
     }
   }
   shader.set_mat4("mvp", projection);
   shader.set_vec3("color", {0.25f, 0.75f, 0.85f});
+  // Vzdálenější čáry jsou tmavší.
+  shader.set_vec3("grid_size", {Playfield::width, Playfield::height, Playfield::depth});
   grid.draw();
 }
