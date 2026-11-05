@@ -29,6 +29,26 @@ public:
     return true;
   }
 
+  bool try_move(Piece &piece, CellPosition new_position) const {
+    Piece candidate = piece;
+    candidate.set_position(new_position);
+    if (!can_place(candidate)) {
+      return false;
+    }
+    piece.set_position(new_position);
+    return true;
+  }
+
+  bool try_lock(const Piece &piece) {
+    if (!can_place(piece)) {
+      return false;
+    }
+    for (const CellPosition &cell : piece.world_cells()) {
+      occupy(cell.x, cell.y, cell.z);
+    }
+    return true;
+  }
+
 private:
   using Row = std::array<bool, width>;
   using Layer = std::array<Row, height>;
