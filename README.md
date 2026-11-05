@@ -56,7 +56,10 @@ Plánovaná architektura vláken:
 
 | Složka | Obsah |
 | --- | --- |
-| `src/` | semestrální projekt (program `icp`), herní logika a vykreslování |
+| `src/main.cpp` | vstupní bod programu `icp` |
+| `src/app/` | hlavní smyčka, ovládání, nastavení a měření FPS |
+| `src/game/` | herní logika, dílky a obsazenost šachty |
+| `src/rendering/` | okno GLFW, GUI, geometrie, shadery a vykreslování šachty |
 | `prototypes/` | prototypy nápadů. Každý `.cpp` je samostatný program |
 | `config/` | nastavení aplikace (`settings.json`) |
 

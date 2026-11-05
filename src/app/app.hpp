@@ -1,10 +1,10 @@
 #pragma once
 
 #include "fps_meter.hpp"
-#include "gui.hpp"
+#include "rendering/gui.hpp"
 #include "settings.hpp"
-#include "well_renderer.hpp"
-#include "window.hpp"
+#include "rendering/well_renderer.hpp"
+#include "rendering/window.hpp"
 
 class App {
 public:
