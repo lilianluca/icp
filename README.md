@@ -82,7 +82,8 @@ Efekt je nejvýraznější, když se díváte jedním okem.
 ## První herní scéna
 
 Program `icp` vykresluje šachtu 8 × 5 × 10, obsazené buňky a aktivní
-L dílek ze tří kostek. Po rychlém pádu dílek zůstane v šachtě a objeví se další.
+L dílek ze tří kostek. Dílek plynule padá rychlostí jedné vrstvy za sekundu. Při dopadu na dno
+nebo jiný blok se upevní v šachtě a objeví se další. Mezerník provede rychlý pád.
 Obsazené místo pro nový dílek ukončí hru.
 
 | Ovládání | Akce |
@@ -97,7 +98,7 @@ Sestavení aplikace: `cmake --build build/debug --target icp`.
 Z kořene repozitáře spusťte `build\debug\icp.exe` na Windows
 nebo `./build/debug/icp` na Linuxu.
 
-Další kroky zahrnují automatické padání, rotace a mazání plných vrstev.
+Další kroky zahrnují rotace a mazání plných vrstev.
 
 ## Použité knihovny
 
