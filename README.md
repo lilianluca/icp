@@ -86,9 +86,15 @@ L dílek ze tří kostek. Dílek plynule padá rychlostí jedné vrstvy za sekun
 nebo jiný blok se upevní v šachtě a objeví se další. Mezerník provede rychlý pád.
 Obsazené místo pro nový dílek ukončí hru.
 
+Dílek se otáčí po 90° kolem osy Z přes střed pevného rotačního čtverce.
+L dílek při otáčení zůstává ve stejném čtverci 2 × 2 i u stěn a v rozích šachty.
+Otočení prochází kontrolou hranic šachty i obsazených buněk během plynulého pádu.
+Při kolizi s bloky si dílek zachová původní polohu i orientaci.
+
 | Ovládání | Akce |
 | --- | --- |
 | šipky | posun dílku vlevo, vpravo, nahoru a dolů |
+| Q / E | otočení o +90° / −90° kolem osy Z |
 | mezerník | rychlý pád a umístění dílku |
 | pohyb myši | simulace polohy hlavy pro efekt okna |
 | R | nová hra |
@@ -98,7 +104,7 @@ Sestavení aplikace: `cmake --build build/debug --target icp`.
 Z kořene repozitáře spusťte `build\debug\icp.exe` na Windows
 nebo `./build/debug/icp` na Linuxu.
 
-Další kroky zahrnují rotace a mazání plných vrstev.
+Další kroky zahrnují mazání plných vrstev.
 
 ## Použité knihovny
 

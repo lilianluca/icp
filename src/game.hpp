@@ -30,26 +30,21 @@ public:
     if (over) {
       return false;
     }
+    Piece candidate = active;
     CellPosition target = active.get_position();
     target.x += dx;
     target.y += dy;
-    const float offset = fall_offset();
-    if (offset > 0.0f) {
-      // Během pádu dílek částečně zasahuje i do následující vrstvy.
-      Piece below = active;
-      below.set_position({target.x, target.y, target.z + 1});
-      if (!field.can_place(below)) {
-        return false;
-      }
-    }
-    if (!field.try_move(active, target)) {
+    candidate.set_position(target);
+    return try_transform(std::move(candidate));
+  }
+
+  bool rotate(Rotation rotation) {
+    if (over) {
       return false;
     }
-    if (offset == 0.0f && fall_offset() > 0.0f) {
-      // Po odsunutí z opory začíná plynulý pád z aktuální hloubky.
-      fall_elapsed = 0.0;
-    }
-    return true;
+    Piece candidate = active;
+    candidate.rotate(rotation);
+    return try_transform(std::move(candidate));
   }
 
   void update(double elapsed_seconds) {
@@ -88,6 +83,30 @@ public:
   }
 
 private:
+  bool try_transform(Piece candidate) {
+    // Posun i otočení ověříme před změnou aktivního dílku.
+    if (!field.can_place(candidate)) {
+      return false;
+    }
+    const float offset = fall_offset();
+    if (offset > 0.0f) {
+      // Během pádu dílek částečně zasahuje i do následující vrstvy.
+      Piece below = candidate;
+      CellPosition target = candidate.get_position();
+      ++target.z;
+      below.set_position(target);
+      if (!field.can_place(below)) {
+        return false;
+      }
+    }
+    active = std::move(candidate);
+    if (offset == 0.0f && fall_offset() > 0.0f) {
+      // Po odsunutí z opory začíná plynulý pád z aktuální hloubky.
+      fall_elapsed = 0.0;
+    }
+    return true;
+  }
+
   bool lock_active_piece() {
     Piece next = spawn_piece();
     if (!field.try_lock(active)) {
