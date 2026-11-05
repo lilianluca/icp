@@ -2,3 +2,4 @@ build/
 cviceni/
 prednasky/
 CMakeUserPresets.json
+.idea/
