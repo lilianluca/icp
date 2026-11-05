@@ -34,6 +34,12 @@ void App::handle_input() {
   if (dx != 0 || dy != 0) {
     game.move(dx, dy);
   }
+  if (ImGui::IsKeyPressed(ImGuiKey_Q, false)) {
+    game.rotate(Rotation::ZPositive);
+  }
+  if (ImGui::IsKeyPressed(ImGuiKey_E, false)) {
+    game.rotate(Rotation::ZNegative);
+  }
   if (ImGui::IsKeyPressed(ImGuiKey_Space, false)) {
     game.drop();
   }
@@ -48,6 +54,7 @@ void App::draw_overlay() {
                    ImGuiWindowFlags_NoInputs); // bez rámečku, titulku a klikání
   ImGui::Text("FPS: %.0f | Frame: %.1f ms", fps.get(), fps.frame_time_ms());
   ImGui::TextUnformatted("Arrows: move | Space: drop");
+  ImGui::TextUnformatted("Q/E: rotate around Z");
   ImGui::TextUnformatted("Mouse: perspective | R: restart | Esc: exit");
   if (game.is_over()) {
     ImGui::TextUnformatted("Game over - press R to restart");
