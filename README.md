@@ -96,6 +96,9 @@ Vrstvy nad ní se posunou směrem ke dnu. Pokud je poté místo pro nový dílek
 Celkový počet smazaných vrstev v aktuální hře se zobrazuje velkou číslicí nahoře uprostřed okna.
 Nová hra přes R vynuluje počítadlo.
 
+Klávesa P pozastaví pád i ovládání dílku a uprostřed okna se zobrazí `Paused`.
+Další stisk P pokračuje od stejného místa pádu. R spustí novou hru i během pauzy.
+
 Dílek se otáčí po 90° kolem osy Z přes střed rotačního čtverce.
 U stěn se střed otáčení upraví tak, aby se celý čtverec vešel do šachty.
 To umožňuje otáčet i domino a přímý dílek v rozích.
@@ -108,6 +111,7 @@ Při kolizi s bloky si dílek zachová původní polohu i orientaci.
 | Q / E | otočení o +90° / −90° kolem osy Z |
 | mezerník | rychlý pád a umístění dílku |
 | pohyb myši | simulace polohy hlavy pro efekt okna |
+| P | pauza / pokračování hry |
 | F2 | připravená scéna pro ověření mazání vrstvy |
 | R | nová hra |
 | ESC | konec |

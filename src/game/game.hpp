@@ -35,6 +35,14 @@ public:
   const Playfield &board() const { return field; }
   const Piece &active_piece() const { return active; }
   bool is_over() const { return over; }
+  bool is_paused() const { return paused; }
+
+  void toggle_pause() {
+    if (!over) {
+      paused = !paused;
+    }
+  }
+
   int cleared_layers() const { return total_cleared_layers; }
 
   float fall_offset() const {
@@ -53,7 +61,7 @@ public:
   }
 
   bool move(int dx, int dy) {
-    if (over) {
+    if (over || paused) {
       return false;
     }
     Piece candidate = active;
@@ -65,7 +73,7 @@ public:
   }
 
   bool rotate(Rotation rotation) {
-    if (over) {
+    if (over || paused) {
       return false;
     }
     Piece candidate = active;
@@ -77,7 +85,9 @@ public:
   }
 
   void update(double elapsed_seconds) {
-    if (over || !std::isfinite(elapsed_seconds) || elapsed_seconds <= 0.0) {
+    // Pauza uchová i rozpracovaný pád mezi vrstvami bez přičítání času.
+    if (over || paused || !std::isfinite(elapsed_seconds) ||
+        elapsed_seconds <= 0.0) {
       return;
     }
     // Zbytek času přenášíme do dalšího snímku, aby rychlost nezávisela na FPS.
@@ -95,7 +105,7 @@ public:
   }
 
   bool drop() {
-    if (over) {
+    if (over || paused) {
       return false;
     }
     CellPosition target = active.get_position();
@@ -165,5 +175,6 @@ private:
   PieceGenerator pieces; // musí vzniknout před prvním aktivním dílkem
   Piece active = spawn_piece();
   bool over = false;
+  bool paused = false;
   int total_cleared_layers = 0;
 };
