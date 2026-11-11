@@ -31,6 +31,10 @@ void App::handle_input() {
     game = Game{};
     return;
   }
+  if (ImGui::IsKeyPressed(ImGuiKey_P, false)) {
+    game.toggle_pause();
+    return;
+  }
   const int dx = static_cast<int>(ImGui::IsKeyPressed(ImGuiKey_RightArrow)) -
                  static_cast<int>(ImGui::IsKeyPressed(ImGuiKey_LeftArrow));
   const int dy = static_cast<int>(ImGui::IsKeyPressed(ImGuiKey_UpArrow)) -
@@ -59,7 +63,7 @@ void App::draw_overlay() {
   ImGui::Text("FPS: %.0f | Frame: %.1f ms", fps.get(), fps.frame_time_ms());
   ImGui::TextUnformatted("Arrows: move | Space: drop");
   ImGui::TextUnformatted("Q/E: rotate around Z");
-  ImGui::TextUnformatted("F2: layer clear demo");
+  ImGui::TextUnformatted("P: pause | F2: layer clear demo");
   ImGui::TextUnformatted("Mouse: perspective | R: restart | Esc: exit");
   if (game.is_over()) {
     ImGui::TextUnformatted("Game over - press R to restart");
@@ -75,6 +79,18 @@ void App::draw_overlay() {
                    ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground);
   ImGui::Text("%d", game.cleared_layers());
   ImGui::End();
+  if (game.is_paused()) {
+    // Stav pauzy je vidět ve středu okna.
+    ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f,
+                                  ImGui::GetIO().DisplaySize.y * 0.5f),
+                            ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+    ImGui::SetNextWindowBgAlpha(0.7f);
+    ImGui::Begin("pause", nullptr,
+                 ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
+                     ImGuiWindowFlags_NoInputs);
+    ImGui::TextUnformatted("Paused");
+    ImGui::End();
+  }
   ImGui::PopFont();
 }
 
