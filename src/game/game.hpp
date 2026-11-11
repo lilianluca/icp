@@ -1,5 +1,6 @@
 #pragma once
 
+#include "piece_generator.hpp"
 #include "playfield.hpp"
 
 #include <algorithm>
@@ -10,6 +11,9 @@ class Game {
 public:
   static Game layer_clear_demo() {
     Game demo;
+    // Kontrolní scéna s L dílkem.
+    demo.active = Piece({{0, 0, 0}, {1, 0, 0}, {1, 1, 0}},
+                        {Playfield::width / 2 - 1, Playfield::height / 2 - 1, 0});
     const auto opening = demo.active.world_cells();
     // Na dně necháme otvor přesně pod výchozím dílkem.
     for (int y = 0; y < Playfield::height; ++y) {
@@ -64,6 +68,9 @@ public:
       return false;
     }
     Piece candidate = active;
+    if (!candidate.fit_rotation_frame(Playfield::width, Playfield::height)) {
+      return false;
+    }
     candidate.rotate(rotation);
     return try_transform(std::move(candidate));
   }
@@ -139,14 +146,22 @@ private:
     return true;
   }
 
-  static Piece spawn_piece() {
-    return Piece({{0, 0, 0}, {1, 0, 0}, {1, 1, 0}},
-                 {Playfield::width / 2 - 1, Playfield::height / 2 - 1, 0});
+  Piece spawn_piece() {
+    Piece piece = pieces.next();
+    int rotation_size = 1;
+    for (const CellPosition &cell : piece.world_cells()) {
+      rotation_size = std::max(rotation_size, std::max(cell.x, cell.y) + 1);
+    }
+    // Vystředíme celý rotační čtverec, aby se dílek mohl otočit i po objevení.
+    piece.set_position({(Playfield::width - rotation_size) / 2,
+                        (Playfield::height - rotation_size) / 2, 0});
+    return piece;
   }
 
   static constexpr double fall_interval = 1.0;
   double fall_elapsed = 0.0;
   Playfield field;
+  PieceGenerator pieces; // musí vzniknout před prvním aktivním dílkem
   Piece active = spawn_piece();
   bool over = false;
 };

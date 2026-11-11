@@ -84,14 +84,19 @@ Efekt je nejvýraznější, když se díváte jedním okem.
 
 ## První herní scéna
 
-Program `icp` vykresluje šachtu 8 × 5 × 10, obsazené buňky a aktivní
-L dílek ze tří kostek. Dílek plynule padá rychlostí jedné vrstvy za sekundu. Při dopadu na dno
+Program `icp` vykresluje šachtu 8 × 5 × 10, obsazené buňky a aktivní dílek.
+Generátor střídá pět tvarů: jednu kostku, domino, přímý dílek ze tří kostek,
+L dílek ze tří kostek a čtverec 2 × 2. Každá skupina pěti dílků obsahuje
+všechny tvary v náhodném pořadí.
+
+Dílek plynule padá rychlostí jedné vrstvy za sekundu. Při dopadu na dno
 nebo jiný blok se upevní v šachtě a objeví se další. Mezerník provede rychlý pád.
 Po upevnění dílku zmizí každá zcela zaplněná vrstva (8 × 5 buněk).
 Vrstvy nad ní se posunou směrem ke dnu. Pokud je poté místo pro nový dílek obsazené, hra končí.
 
-Dílek se otáčí po 90° kolem osy Z přes střed pevného rotačního čtverce.
-L dílek při otáčení zůstává ve stejném čtverci 2 × 2 i u stěn a v rozích šachty.
+Dílek se otáčí po 90° kolem osy Z přes střed rotačního čtverce.
+U stěn se střed otáčení upraví tak, aby se celý čtverec vešel do šachty.
+To umožňuje otáčet i domino a přímý dílek v rozích.
 Otočení prochází kontrolou hranic šachty i obsazených buněk během plynulého pádu.
 Při kolizi s bloky si dílek zachová původní polohu i orientaci.
 

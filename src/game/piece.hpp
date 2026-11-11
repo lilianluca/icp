@@ -39,6 +39,18 @@ public:
     position = new_position;
   }
 
+  bool fit_rotation_frame(int width, int height) {
+    if (rotation_size > width || rotation_size > height) {
+      return false;
+    }
+    // U stěn upravíme střed otáčení tak, aby se celý rotační čtverec vešel.
+    rotation_origin_x = std::clamp(rotation_origin_x, -position.x,
+                                   width - rotation_size - position.x);
+    rotation_origin_y = std::clamp(rotation_origin_y, -position.y,
+                                   height - rotation_size - position.y);
+    return true;
+  }
+
   void rotate(Rotation rotation) {
     // Otáčíme středy buněk o 90 stupňů kolem osy Z ve středu pevného čtverce.
     for (CellPosition &cell : local_cells) {
