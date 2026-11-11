@@ -93,6 +93,8 @@ Dílek plynule padá rychlostí jedné vrstvy za sekundu. Při dopadu na dno
 nebo jiný blok se upevní v šachtě a objeví se další. Mezerník provede rychlý pád.
 Po upevnění dílku zmizí každá zcela zaplněná vrstva (8 × 5 buněk).
 Vrstvy nad ní se posunou směrem ke dnu. Pokud je poté místo pro nový dílek obsazené, hra končí.
+Celkový počet smazaných vrstev v aktuální hře se zobrazuje velkou číslicí nahoře uprostřed okna.
+Nová hra přes R vynuluje počítadlo.
 
 Dílek se otáčí po 90° kolem osy Z přes střed rotačního čtverce.
 U stěn se střed otáčení upraví tak, aby se celý čtverec vešel do šachty.
@@ -112,6 +114,7 @@ Při kolizi s bloky si dílek zachová původní polohu i orientaci.
 
 Pro ruční ověření stiskněte F2 a poté mezerník bez posunu či otočení dílku.
 Dílek vyplní otvor na dně, plná vrstva zmizí a blok v rohu klesne o jednu vrstvu.
+Počítadlo nahoře uprostřed ukáže 1.
 F2 scénu připraví znovu, R spustí novou hru s prázdnou šachtou.
 
 Sestavení aplikace: `cmake --build build/debug --target icp`.
