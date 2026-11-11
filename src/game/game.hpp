@@ -2,11 +2,32 @@
 
 #include "playfield.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <utility>
 
 class Game {
 public:
+  static Game layer_clear_demo() {
+    Game demo;
+    const auto opening = demo.active.world_cells();
+    // Na dně necháme otvor přesně pod výchozím dílkem.
+    for (int y = 0; y < Playfield::height; ++y) {
+      for (int x = 0; x < Playfield::width; ++x) {
+        const bool in_opening = std::any_of(
+            opening.begin(), opening.end(), [x, y](const CellPosition &cell) {
+              return cell.x == x && cell.y == y;
+            });
+        if (!in_opening) {
+          demo.field.occupy(x, y, Playfield::depth - 1);
+        }
+      }
+    }
+    // Tento blok po smazání plné vrstvy klesne o jednu vrstvu.
+    demo.field.occupy(0, 0, Playfield::depth - 2);
+    return demo;
+  }
+
   const Playfield &board() const { return field; }
   const Piece &active_piece() const { return active; }
   bool is_over() const { return over; }
@@ -112,6 +133,7 @@ private:
     if (!field.try_lock(active)) {
       return false;
     }
+    field.clear_full_layers();
     active = std::move(next);
     over = !field.can_place(active);
     return true;

@@ -87,7 +87,8 @@ Efekt je nejvýraznější, když se díváte jedním okem.
 Program `icp` vykresluje šachtu 8 × 5 × 10, obsazené buňky a aktivní
 L dílek ze tří kostek. Dílek plynule padá rychlostí jedné vrstvy za sekundu. Při dopadu na dno
 nebo jiný blok se upevní v šachtě a objeví se další. Mezerník provede rychlý pád.
-Obsazené místo pro nový dílek ukončí hru.
+Po upevnění dílku zmizí každá zcela zaplněná vrstva (8 × 5 buněk).
+Vrstvy nad ní se posunou směrem ke dnu. Pokud je poté místo pro nový dílek obsazené, hra končí.
 
 Dílek se otáčí po 90° kolem osy Z přes střed pevného rotačního čtverce.
 L dílek při otáčení zůstává ve stejném čtverci 2 × 2 i u stěn a v rozích šachty.
@@ -100,14 +101,17 @@ Při kolizi s bloky si dílek zachová původní polohu i orientaci.
 | Q / E | otočení o +90° / −90° kolem osy Z |
 | mezerník | rychlý pád a umístění dílku |
 | pohyb myši | simulace polohy hlavy pro efekt okna |
+| F2 | připravená scéna pro ověření mazání vrstvy |
 | R | nová hra |
 | ESC | konec |
+
+Pro ruční ověření stiskněte F2 a poté mezerník bez posunu či otočení dílku.
+Dílek vyplní otvor na dně, plná vrstva zmizí a blok v rohu klesne o jednu vrstvu.
+F2 scénu připraví znovu, R spustí novou hru s prázdnou šachtou.
 
 Sestavení aplikace: `cmake --build build/debug --target icp`.
 Z kořene repozitáře spusťte `build\debug\icp.exe` na Windows
 nebo `./build/debug/icp` na Linuxu.
-
-Další kroky zahrnují mazání plných vrstev.
 
 ## Použité knihovny
 

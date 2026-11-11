@@ -49,8 +49,36 @@ public:
     return true;
   }
 
+  void clear_full_layers() {
+    // Od dna přesouváme celé zbývající vrstvy, včetně prázdných.
+    int destination = depth - 1;
+    for (int z = depth - 1; z >= 0; --z) {
+      if (is_full(cells[z])) {
+        continue;
+      }
+      if (destination != z) {
+        cells[destination] = cells[z];
+      }
+      --destination;
+    }
+    while (destination >= 0) {
+      cells[destination--] = {};
+    }
+  }
+
 private:
   using Row = std::array<bool, width>;
   using Layer = std::array<Row, height>;
+  static bool is_full(const Layer &layer) {
+    for (const Row &row : layer) {
+      for (bool occupied : row) {
+        if (!occupied) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
   std::array<Layer, depth> cells{};
 };
