@@ -23,6 +23,10 @@ void App::handle_input() {
   if (ImGui::GetIO().WantCaptureKeyboard) {
     return;
   }
+  if (ImGui::IsKeyPressed(ImGuiKey_F2, false)) {
+    game = Game::layer_clear_demo();
+    return;
+  }
   if (ImGui::IsKeyPressed(ImGuiKey_R, false)) {
     game = Game{};
     return;
@@ -55,6 +59,7 @@ void App::draw_overlay() {
   ImGui::Text("FPS: %.0f | Frame: %.1f ms", fps.get(), fps.frame_time_ms());
   ImGui::TextUnformatted("Arrows: move | Space: drop");
   ImGui::TextUnformatted("Q/E: rotate around Z");
+  ImGui::TextUnformatted("F2: layer clear demo");
   ImGui::TextUnformatted("Mouse: perspective | R: restart | Esc: exit");
   if (game.is_over()) {
     ImGui::TextUnformatted("Game over - press R to restart");
