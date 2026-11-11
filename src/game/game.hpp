@@ -35,6 +35,7 @@ public:
   const Playfield &board() const { return field; }
   const Piece &active_piece() const { return active; }
   bool is_over() const { return over; }
+  int cleared_layers() const { return total_cleared_layers; }
 
   float fall_offset() const {
     if (over) {
@@ -140,7 +141,7 @@ private:
     if (!field.try_lock(active)) {
       return false;
     }
-    field.clear_full_layers();
+    total_cleared_layers += field.clear_full_layers();
     active = std::move(next);
     over = !field.can_place(active);
     return true;
@@ -164,4 +165,5 @@ private:
   PieceGenerator pieces; // musí vzniknout před prvním aktivním dílkem
   Piece active = spawn_piece();
   bool over = false;
+  int total_cleared_layers = 0;
 };

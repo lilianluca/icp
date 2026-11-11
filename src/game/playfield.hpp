@@ -49,11 +49,13 @@ public:
     return true;
   }
 
-  void clear_full_layers() {
+  int clear_full_layers() {
+    int cleared = 0;
     // Od dna přesouváme celé zbývající vrstvy, včetně prázdných.
     int destination = depth - 1;
     for (int z = depth - 1; z >= 0; --z) {
       if (is_full(cells[z])) {
+        ++cleared;
         continue;
       }
       if (destination != z) {
@@ -64,6 +66,7 @@ public:
     while (destination >= 0) {
       cells[destination--] = {};
     }
+    return cleared;
   }
 
 private:

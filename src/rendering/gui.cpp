@@ -25,6 +25,9 @@ Gui::Gui(GLFWwindow *window, const std::string &font_path, float font_size) {
   }
   ImGui::GetIO().Fonts->AddFontFromFileTTF(font_path.c_str(), font_size,
                                            nullptr, ranges);
+  // Velký font se načte přímo ve své velikosti pro ostré číslice počítadla.
+  counter_font = ImGui::GetIO().Fonts->AddFontFromFileTTF(
+      font_path.c_str(), 64.0f, nullptr, ranges);
 
   if (!ImGui_ImplGlfw_InitForOpenGL(window, true)) {
     ImGui::DestroyContext();

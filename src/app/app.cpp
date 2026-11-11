@@ -65,6 +65,17 @@ void App::draw_overlay() {
     ImGui::TextUnformatted("Game over - press R to restart");
   }
   ImGui::End();
+
+  // Počítadlo sleduje horní střed okna i při změně jeho velikosti.
+  ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f, 16.0f),
+                          ImGuiCond_Always, ImVec2(0.5f, 0.0f));
+  ImGui::PushFont(gui.get_counter_font());
+  ImGui::Begin("layer_counter", nullptr,
+               ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
+                   ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground);
+  ImGui::Text("%d", game.cleared_layers());
+  ImGui::End();
+  ImGui::PopFont();
 }
 
 int App::run() {
