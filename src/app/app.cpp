@@ -65,9 +65,6 @@ void App::draw_overlay() {
   ImGui::TextUnformatted("Q/E: rotate around Z");
   ImGui::TextUnformatted("P: pause | F2: layer clear demo");
   ImGui::TextUnformatted("Mouse: perspective | R: restart | Esc: exit");
-  if (game.is_over()) {
-    ImGui::TextUnformatted("Game over - press R to restart");
-  }
   ImGui::End();
 
   // Počítadlo sleduje horní střed okna i při změně jeho velikosti.
@@ -79,19 +76,33 @@ void App::draw_overlay() {
                    ImGuiWindowFlags_NoInputs | ImGuiWindowFlags_NoBackground);
   ImGui::Text("%d", game.cleared_layers());
   ImGui::End();
-  if (game.is_paused()) {
-    // Stav pauzy je vidět ve středu okna.
+  ImGui::PopFont();
+  if (game.is_paused() || game.is_over()) {
+    // Stav pauzy nebo konce hry je vidět ve středu okna.
+    const bool game_over = game.is_over();
+    const char *title = game_over ? "Game over" : "Paused";
+    const char *restart_hint = "R - new game";
+    const float hint_width = game_over ? ImGui::CalcTextSize(restart_hint).x : 0.0f;
     ImGui::SetNextWindowPos(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f,
                                   ImGui::GetIO().DisplaySize.y * 0.5f),
                             ImGuiCond_Always, ImVec2(0.5f, 0.5f));
     ImGui::SetNextWindowBgAlpha(0.7f);
-    ImGui::Begin("pause", nullptr,
+    ImGui::Begin("game_state", nullptr,
                  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
                      ImGuiWindowFlags_NoInputs);
-    ImGui::TextUnformatted("Paused");
+    ImGui::PushFont(gui.get_counter_font());
+    const float title_width = ImGui::CalcTextSize(title).x;
+    const float content_width = std::max(title_width, hint_width);
+    const float padding = ImGui::GetStyle().WindowPadding.x;
+    ImGui::SetCursorPosX(padding + (content_width - title_width) * 0.5f);
+    ImGui::TextUnformatted(title);
+    ImGui::PopFont();
+    if (game_over) {
+      ImGui::SetCursorPosX(padding + (content_width - hint_width) * 0.5f);
+      ImGui::TextUnformatted(restart_hint);
+    }
     ImGui::End();
   }
-  ImGui::PopFont();
 }
 
 int App::run() {

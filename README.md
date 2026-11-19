@@ -103,6 +103,9 @@ Bližší bloky i aktivní dílek obrys překrývají. Při dosednutí dílku ob
 Klávesa P pozastaví pád i ovládání dílku a uprostřed okna se zobrazí `Paused`.
 Další stisk P pokračuje od stejného místa pádu. R spustí novou hru i během pauzy.
 
+Při konci hry se uprostřed okna zobrazí velký nápis `Game over`.
+Pod ním je nápověda `R - new game` pro spuštění nové hry.
+
 Dílek se otáčí po 90° kolem osy Z přes střed rotačního čtverce.
 U stěn se střed otáčení upraví tak, aby se celý čtverec vešel do šachty.
 To umožňuje otáčet i domino a přímý dílek v rozích.
