@@ -20,6 +20,10 @@ void App::handle_input() {
   if (ImGui::IsKeyPressed(ImGuiKey_Escape, false)) {
     glfwSetWindowShouldClose(window.get(), GLFW_TRUE);
   }
+  if (ImGui::IsKeyPressed(ImGuiKey_F11, false)) {
+    window.toggle_fullscreen();
+    return;
+  }
   if (ImGui::GetIO().WantCaptureKeyboard) {
     return;
   }
@@ -64,6 +68,7 @@ void App::draw_overlay() {
   ImGui::TextUnformatted("Arrows: move | Space: drop");
   ImGui::TextUnformatted("Q/E: rotate around Z");
   ImGui::TextUnformatted("P: pause | F2: layer clear demo");
+  ImGui::TextUnformatted("F11: fullscreen");
   ImGui::TextUnformatted("Mouse: perspective | R: restart | Esc: exit");
   ImGui::End();
 
@@ -130,6 +135,12 @@ int App::run() {
     gui.begin_frame();
     game.update(elapsed_seconds);
     handle_input();
+    // Přepnutí fullscreen může během ovládání změnit velikost framebufferu.
+    glfwGetFramebufferSize(window.get(), &width, &height);
+    if (width == 0 || height == 0) {
+      ImGui::EndFrame(); // uzavřít rozpracovaný GUI snímek
+      continue;
+    }
 
     int window_width, window_height;
     glfwGetWindowSize(window.get(), &window_width, &window_height);

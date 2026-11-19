@@ -30,7 +30,13 @@ public:
   // const znamená, že metoda objekt nemění, jen z něj čte
   GLFWwindow *get() const;
   void set_vsync(bool enabled);
+  void toggle_fullscreen();
 
 private:
   GLFWwindow *handle = nullptr;
+  int windowed_x = 0;
+  int windowed_y = 0;
+  int windowed_width;
+  int windowed_height;
+  bool windowed_maximized = false;
 };
