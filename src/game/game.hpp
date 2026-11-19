@@ -45,6 +45,20 @@ public:
 
   int cleared_layers() const { return total_cleared_layers; }
 
+  Piece landing_piece() const {
+    Piece landing = active;
+    if (over) {
+      return landing;
+    }
+    // Náhled i rychlý pád používají stejnou kontrolu kolizí.
+    CellPosition target = landing.get_position();
+    ++target.z;
+    while (field.try_move(landing, target)) {
+      ++target.z;
+    }
+    return landing;
+  }
+
   float fall_offset() const {
     if (over) {
       return 0.0f;
@@ -108,11 +122,7 @@ public:
     if (over || paused) {
       return false;
     }
-    CellPosition target = active.get_position();
-    ++target.z;
-    while (field.try_move(active, target)) {
-      ++target.z;
-    }
+    active = landing_piece();
     if (!lock_active_piece()) {
       return false;
     }

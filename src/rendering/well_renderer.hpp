@@ -17,4 +17,5 @@ private:
   Mesh grid;
   Mesh cube;
   Mesh edges;
+  Mesh landing_face; // obrys spodní stěny v místě dopadu
 };

@@ -96,6 +96,10 @@ Vrstvy nad ní se posunou směrem ke dnu. Pokud je poté místo pro nový dílek
 Celkový počet smazaných vrstev v aktuální hře se zobrazuje velkou číslicí nahoře uprostřed okna.
 Nová hra přes R vynuluje počítadlo.
 
+Světle žlutý plochý obrys spodní strany dílku ukazuje místo dopadu při rychlém pádu mezerníkem.
+Aktualizuje se při posunu i otočení.
+Bližší bloky i aktivní dílek obrys překrývají. Při dosednutí dílku obrys zanikne.
+
 Klávesa P pozastaví pád i ovládání dílku a uprostřed okna se zobrazí `Paused`.
 Další stisk P pokračuje od stejného místa pádu. R spustí novou hru i během pauzy.
 
