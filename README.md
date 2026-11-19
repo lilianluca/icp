@@ -106,6 +106,9 @@ Další stisk P pokračuje od stejného místa pádu. R spustí novou hru i běh
 Při konci hry se uprostřed okna zobrazí velký nápis `Game over`.
 Pod ním je nápověda `R - new game` pro spuštění nové hry.
 
+Klávesa F11 přepíná celoobrazovkový režim na monitoru s oknem hry.
+Při návratu se obnoví předchozí velikost a poloha okna.
+
 Dílek se otáčí po 90° kolem osy Z přes střed rotačního čtverce.
 U stěn se střed otáčení upraví tak, aby se celý čtverec vešel do šachty.
 To umožňuje otáčet i domino a přímý dílek v rozích.
@@ -119,6 +122,7 @@ Při kolizi s bloky si dílek zachová původní polohu i orientaci.
 | mezerník | rychlý pád a umístění dílku |
 | pohyb myši | simulace polohy hlavy pro efekt okna |
 | P | pauza / pokračování hry |
+| F11 | přepnutí okno / celá obrazovka |
 | F2 | připravená scéna pro ověření mazání vrstvy |
 | R | nová hra |
 | ESC | konec |
