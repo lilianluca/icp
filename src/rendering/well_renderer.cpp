@@ -3,6 +3,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace {
+glm::mat4 cube_model(CellPosition cell, float depth_offset) {
+  const float depth = cell.z + depth_offset;
+  const glm::vec3 position(cell.x - Playfield::width / 2.0f,
+                           cell.y - Playfield::height / 2.0f, -depth);
+  // matice model přesune jednotkovou kostku na její místo v šachtě
+  return glm::translate(glm::mat4(1.0f), position);
+}
+
 std::vector<float> well_vertices() {
   std::vector<float> vertices;
   const float x0 = -Playfield::width / 2.0f;
@@ -52,16 +60,13 @@ WellRenderer::WellRenderer()
              0,0,-1, 1,0,-1, 1,0,-1, 1,1,-1,
              1,1,-1, 0,1,-1, 0,1,-1, 0,0,-1,
              0,0,0, 0,0,-1, 1,0,0, 1,0,-1,
-             1,1,0, 1,1,-1, 0,1,0, 0,1,-1}, GL_LINES) {}
+             1,1,0, 1,1,-1, 0,1,0, 0,1,-1}, GL_LINES),
+      landing_face({0,0,-1, 1,0,-1, 1,1,-1, 0,1,-1}, GL_LINE_LOOP) {}
 
 void WellRenderer::draw_cube(CellPosition cell, glm::vec3 color,
                              const glm::mat4 &projection, float depth_offset) {
   const float depth = cell.z + depth_offset;
-  const glm::vec3 position(cell.x - Playfield::width / 2.0f,
-                           cell.y - Playfield::height / 2.0f, -depth);
-  // matice model přesune jednotkovou kostku na její místo v šachtě
-  const glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
-  shader.set_mat4("mvp", projection * model);
+  shader.set_mat4("mvp", projection * cube_model(cell, depth_offset));
   shader.set_vec3("color", color * (1.0f - 0.55f * depth / Playfield::depth));
   glEnable(GL_POLYGON_OFFSET_FILL);
   glPolygonOffset(1.0f, 1.0f);
@@ -110,4 +115,19 @@ void WellRenderer::draw(const Game &game, float aspect, glm::vec2 eye_offset) {
   // Vzdálenější čáry jsou tmavší.
   shader.set_vec3("grid_size", {Playfield::width, Playfield::height, Playfield::depth});
   grid.draw();
+
+  if (!game.is_over()) {
+    const Piece landing = game.landing_piece();
+    if (landing.get_position().z > game.active_piece().get_position().z) {
+      // Test hloubky skryje obrys za bližšími bloky.
+      shader.set_vec3("grid_size", glm::vec3(0.0f));
+      shader.set_vec3("color", {1.0f, 0.85f, 0.35f});
+      // Drobný posun k divákovi zabrání blikání na povrchu dopadu.
+      constexpr float surface_offset = -0.001f;
+      for (const CellPosition &cell : landing.world_cells()) {
+        shader.set_mat4("mvp", projection * cube_model(cell, surface_offset));
+        landing_face.draw();
+      }
+    }
+  }
 }
